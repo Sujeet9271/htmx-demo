@@ -1,0 +1,23 @@
+<div id="event_{{event.id}}" class="d-flex justify-content-between">
+    <li   
+        hx-get="{% url 'accounts:edit_event' event.id %}" 
+        hx-target="#event_form_div"
+        hx-swap="innerHTML" 
+        hx-trigger="click"
+        style="cursor:pointer !important;"
+        >{{event.name}} 
+    </li>
+    <button hx-delete="{% url 'accounts:delete_event' event.id %}" 
+            hx-confirm="Are You Sure?" 
+            hx-swap="delete" 
+            hx-target="#event_{{event.id}}"
+        >
+        <i class="fa fa-trash" aria-hidden="true" style="color:red"></i>
+    </button>
+</div>
+
+{% if edited %}
+<div class="content" id="event_form_div" hx-swap-oob="true">
+    {% include 'events/create_event.html' with form=form %}
+</div>
+{% endif %}

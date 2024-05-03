@@ -1,0 +1,6 @@
+    <h2>Events</h2>
+    <ul id="events_div">
+        {% for event in events %}
+        {% include 'events/event.html' with event=event %}
+        {% endfor %}
+    </ul>

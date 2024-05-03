@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    nav {
+        background-color: #f4f4f4;
+        padding: 20px;
+        width: 200px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .content {
+        margin-left: 220px;
+        padding: 20px;
+    }
+
+    form {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #dc3545;
+        width: 60px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        display: none;
+    }
+
+    .htmx-request{
+        display:block;
+    }
+    
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+<header>
+    <h1>HTMX Demo</h1>
+</header>
+
+
+<div class="container" id="infinite_scroll" hx-get="{% url 'accounts:get_all_users' %}"
+    hx-target="#users_div" 
+    hx-swap="innerHTML scroll:top" 
+    hx-trigger="load"
+    hx-indicator="#loader"
+    >
+    <h2>Users</h2>
+    <input type="text" class="form-control" hx-get="{% url 'accounts:get_all_users' %}" id="search" name="search" hx-target="#users_div" hx-swap="innerHTML" hx-trigger="keyup changed delay:500ms" hx-indicator="#search_loader">
+    <div class="loader" id="search_loader"></div>
+    <ul id="users_div" class="users-list">
+        
+    </ul>
+    <div class="loader" id="loader"></div>
+</div>
+
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+    document.body.addEventListener('htmx:beforeSend', function(evt) {
+        console.log(evt)
+        // document.getElementById('loader').classList.remove('d-none')
+    });
+    
+    document.body.addEventListener('htmx:beforeSwap', function(evt) {
+        console.log(evt)
+        // document.getElementById('loader').classList.add('d-none')
+    });
+</script>
+{% endblock scripts %}

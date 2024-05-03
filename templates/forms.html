@@ -1,0 +1,82 @@
+{% load widget_tweaks %}
+
+                        {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                            {% endfor %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% for field in form.visible_fields %}
+                                {% if field.widget_type == 'checkbox' %}
+                                    <div class="form-check m-3" id="{{field.id_for_label}}_id">
+                                        {% render_field field class="form-check-input h-50" %}
+                                        <label for="{{ field.id_for_label }}" class="">{{ field.label }}</label>
+                                    </div>
+                                {% elif field.widget_type == 'checkboxselectmultiple' %}
+                                    {% if field.errors %}
+                                    <label for="{{ field.id_for_label }}" class="form-check-label mt-4" style="margin-top:10px">{{ field.label }}{{ form.label_suffix }}</label>
+                                    <div class="mb-3 d-flex is-invalid" style="max-height: 150px;  overflow: auto; background-color: #EEEEEE;  border-radius: 4px; padding:10px">
+                                        {% render_field field %}
+                                    </div>
+                                    {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <label for="{{ field.id_for_label }}" class="form-check-label mt-4" style="margin-top:10px">{{ field.label }}{{ form.label_suffix }}</label>
+                                    <div class="mb-3 d-flex" style="max-height: 150px;  overflow: auto; background-color: #EEEEEE;  border-radius: 4px; padding:10px">
+                                        {% render_field field %}
+                                    </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="mb-5 {% if horizontal %}col-6{% endif %}" id="{{field.id_for_label}}_id">
+                                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}{{ form.label_suffix }}</label>
+                                        {% if form.is_bound %}
+                                            {% if field.errors %}
+                                            {% if field.widget_type == 'selectmultiple' %}
+                                            {% render_field field class="form-select is-invalid" multiple="true" multiselect-search="true" multiselect-select-all="true" %}
+                                            {% else %}
+                                            {% render_field field class="form-control is-invalid" %}
+                                            {% endif %}
+                                                {% for error in field.errors %}
+                                                    <div class="invalid-feedback">
+                                                        {{ error }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                {% if form.non_field_errors %}
+                                                    {% if field.widget_type == 'selectmultiple' %}
+                                                    {% render_field field class="form-select" multiple="true" multiselect-search="true" multiselect-select-all="true" %}
+                                                    {% else %}
+                                                    {% render_field field class="form-control" %}
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if field.widget_type == 'selectmultiple' %}
+                                                    {% render_field field class="form-select is-valid" multiple="true" multiselect-search="true" multiselect-select-all="true" %}
+                                                    {% else %}
+                                                    {% render_field field class="form-control is-valid" %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% else %}                 
+                                            {% if field.widget_type == 'selectmultiple' %}
+                                            {% render_field field class="form-select" multiple="true" multiselect-search="true" multiselect-select-all="true" %}
+                                            {% else %}
+                                            {% render_field field class="form-control" %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if field.help_text %}
+                                            <div class="form-text">{{ field.help_text }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            

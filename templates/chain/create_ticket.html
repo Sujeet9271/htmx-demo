@@ -1,0 +1,6 @@
+<h2>Create Ticket</h2>
+    <form hx-post="{% url 'accounts:tickets' %}" hx-target="#tickets_div" hx-swap="afterbegin" id="create_ticket_form">
+        {% csrf_token %}
+        {% include 'forms.html' with form=form %}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>

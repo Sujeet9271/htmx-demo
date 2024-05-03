@@ -1,0 +1,6 @@
+<h2>Edit Event</h2>
+    <form hx-post="{% url 'accounts:edit_event' form.instance.id %}" hx-target="#event_{{form.instance.id}}" hx-swap="outerHTML" id="edit_event_form">
+        {% csrf_token %}
+        {% include 'forms.html' with form=form %}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .content {
+        margin-left: 220px;
+        padding: 20px;
+    }
+
+    form {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+<header>
+    <h1>HTMX Demo</h1>
+</header>
+
+
+<nav hx-get="{% url 'accounts:get_all_tickets' %}" id="tickets" hx-target="this" hx-swap="innerHTML" hx-trigger="load, loadTickets">
+    
+</nav>
+
+<div class="content" id="ticket_form_div">
+    {% include 'chain/create_ticket.html' with form=form %}
+</div>
+
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+    htmx.on('clearForm',function(evt){
+        document.getElementById('create_ticket_form').reset()
+    })
+    
+    htmx.on('loadTickets',function(evt){
+        htmx.ajax('GET', `{% url 'accounts:get_all_tickets' %}`, {target:'#tickets', swap:'innerHTML'})
+        // document.getElementById('create_ticket_form').reset()
+    })
+</script>
+{% endblock scripts %}

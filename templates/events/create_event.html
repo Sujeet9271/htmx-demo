@@ -1,0 +1,6 @@
+<h2>Create Event</h2>
+    <form hx-post="{% url 'accounts:create_event' %}" hx-target="#events_div" hx-swap="afterbegin" id="create_event_form">
+        {% csrf_token %}
+        {% include 'forms.html' with form=form %}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>

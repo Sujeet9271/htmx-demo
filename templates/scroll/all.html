@@ -1,0 +1,15 @@
+{% for user in users %}
+<div id="user_{{ user.id }}">
+    <li style="cursor:pointer !important;">{{ user.name }}</li>
+    {% if forloop.last and users.has_next %} 
+        <div 
+            hx-get="?page={{ users.next_page_number }}" 
+            hx-target="#users_div" 
+            hx-swap="beforeend scroll:bottom" 
+            hx-trigger="intersect once"
+            hx-include="#search"
+            hx-indicator="#loader"
+        ></div>
+    {% endif %}
+</div>
+{% endfor %}

@@ -1,0 +1,6 @@
+<h2>Tickets</h2>
+<ul id="tickets_div">
+    {% for ticket in tickets %}
+    {% include 'chain/ticket.html' with ticket=ticket %}
+    {% endfor %}
+</ul>

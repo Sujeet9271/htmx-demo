@@ -1,0 +1,11 @@
+<div id="ticket_{{ticket.id}}">
+    <li style="cursor:pointer !important;"
+        >{{ticket.number}} 
+    </li>
+</div>
+
+{% if edited %}
+<div class="content" id="ticket_form_div" hx-swap-oob="true">
+    {% include 'tickets/create_ticket.html' with form=form %}
+</div>
+{% endif %}
