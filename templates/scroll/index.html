@@ -37,33 +37,6 @@
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
-    .loader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #dc3545;
-        width: 60px;
-        height: 50px;
-        -webkit-animation: spin 2s linear infinite; /* Safari */
-        animation: spin 2s linear infinite;
-        display: none;
-    }
-
-    .htmx-request{
-        display:block;
-    }
-    
-    /* Safari */
-    @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-    
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
 </style>
 {% endblock styles %}
 
@@ -81,12 +54,14 @@
     hx-indicator="#loader"
     >
     <h2>Users</h2>
-    <input type="text" class="form-control" hx-get="{% url 'accounts:get_all_users' %}" id="search" name="search" hx-target="#users_div" hx-swap="innerHTML" hx-trigger="keyup changed delay:500ms" hx-indicator="#search_loader">
-    <div class="loader" id="search_loader"></div>
-    <ul id="users_div" class="users-list">
+    <div class="d-flex justify-content-around">
+        <input type="text" class="form-control" hx-get="{% url 'accounts:get_all_users' %}" id="search" name="search" hx-target="#users_div" hx-swap="innerHTML" hx-trigger="keyup changed delay:500ms" hx-indicator="#search_loader">
+        <div class="loader" id="search_loader"></div>
+    </div>
+    <ul id="users_div" class="users-list" style="height:50vh; overflow: scroll" >
         
+        <div class="loader" id="loader"></div>
     </ul>
-    <div class="loader" id="loader"></div>
 </div>
 
 {% endblock content %}

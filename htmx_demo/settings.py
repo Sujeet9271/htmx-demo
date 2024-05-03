@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-q7h!ylkx(vm7^$k0t&1ijlxa$1t+o0&#icpv2-*+s4e+i14s)b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,6 +57,11 @@ MIDDLEWARE = [
 
 
 if DEBUG:
+    INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+    ]
     INSTALLED_APPS+=['debug_toolbar']
     MIDDLEWARE+=["debug_toolbar.middleware.DebugToolbarMiddleware",]
 

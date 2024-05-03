@@ -37,7 +37,7 @@
 </header>
 
 
-<nav hx-get="{% url 'accounts:get_all_tickets' %}" id="tickets" hx-target="this" hx-swap="innerHTML" hx-trigger="load, loadTickets">
+<nav hx-get="{% url 'accounts:get_all_tickets' %}" id="tickets" hx-target="this" hx-swap="innerHTML" hx-trigger="load, loadTickets from:body">
     
 </nav>
 
@@ -55,7 +55,7 @@
     })
     
     htmx.on('loadTickets',function(evt){
-        htmx.ajax('GET', `{% url 'accounts:get_all_tickets' %}`, {target:'#tickets', swap:'innerHTML'})
+        // htmx.ajax('GET', `{% url 'accounts:get_all_tickets' %}`, {target:'#tickets', swap:'innerHTML'})
         // document.getElementById('create_ticket_form').reset()
     })
 </script>
