@@ -6,9 +6,9 @@ from django.core.paginator import Paginator
 
 from django.contrib.auth import update_session_auth_hash, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 from django.views.decorators.http import require_http_methods
-
+from django_htmx.http import HttpResponseClientRedirect
 
 from accounts.forms import EventForm, TicketsForm
 from accounts.models import Event, Users, Tickets, Menu, SubMenu
@@ -25,8 +25,15 @@ def auth_login(request):
         user = authenticate(username=username,password=password)
         if user:
             login(request,user)
+            if request.htmx:
+                return HttpResponseClientRedirect(redirect_to='/')
             return redirect('accounts:index')
-        context['error'] = 'Username or Password is incorrect'
+        messages.error(request,message='Username or Password is incorrect')
+        if request.htmx:
+            response =  render(request,'accounts/htmx/login_form.html',context)
+            response['HX-Reswap']='innerHTML'
+            response['HX-Retarget']='.login'
+            return response
     return render(request,'accounts/login.html',context)
 
 

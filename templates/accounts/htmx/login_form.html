@@ -1,0 +1,32 @@
+
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="font-size: 14px; font-weight:700">
+                <strong>{{message.message}}</strong>
+            </div>
+        {% endfor %}
+        
+        <form action="{% url 'accounts:login' %}" method="post" class="loginForm" hx-post="{% url 'accounts:login' %}" hx-indicator="#loader">
+            {% csrf_token %}
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="email">Username</label>
+                <input type="text" name="username" id="username" class="form-control" autofocus required/>
+            
+            </div>
+        
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <div class="password-div">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required/>
+                    <span class="icon" onclick="togglePassword(event)"><i class="far fa-eye"></i></span>
+                </div>
+            </div>
+        
+            <!-- Submit button -->
+            <div class="butn">
+                <button type="submit" class=" w-25 logins">Sign in</button>
+                <div class="loader" id="loader"></div>
+            </div>
+        
+        </form>
